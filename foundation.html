@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/css/foundation.min.css" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/main.css">
+    <title>Fullstackutveckling med ramverk - Moment 1 - Foundation</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+            <h1 class="logo">Moment 1</h1>
+            <nav>
+                <ul class="menu">
+                    <li><a href="index.html">Hem</a></li>
+                    <li><a href="foundation.html">Foundation</a></li>
+                    <li><a href="tailwind/">Tailwind CSS</a></li>
+                    <li><a href="pub.html">Publicering</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <h1>Foundation</h1>
+        <div class="media-object stack-for-small">
+            <div class="media-object-section">
+                <div class="thumbnail">
+                    <img src="img/foundation.png">
+                </div>
+            </div>
+            <div class="media-object-section main-section">
+                <h3>Information</h3>
+                <p>Foundation bygger på att ge utvecklare möjligheten till att utveckla webbplatser smidigt med en mobile-first design. Ramverket är responsivt och gör det enkelt att designa webbplatser som fungerar på alla typer av skärmar, oavsett storlek.
+                    Foundation har både stöd för JavaScript och CSS och det går att inkludera via CDN, via command line (CLI), ladda ner och inkludera och via npm paket. För att kunna göra egna inställningar behöver man använda SASS för att ställa in
+                    variabler.
+                </p>
+            </div>
+        </div>
+        <div class="media-object stack-for-small">
+            <div class="media-object-section main-section">
+                <h3>Fördelar och nackdelar</h3>
+                <p>Foundation är väldigt lätt att installera och är inte särskillt stort så det går bra att använda exempelvis CDN-länkar om man vill det. Det är enkelt att designa en responsiv webbplats och enkelt att hitta lösningar på deras webbsida.
+                    Foundation har både egna klasser som man kan lägga till. Ett exempel på det är de klasser som används för att få bild bredbid text på det sättet som jag använder här. </p>
+                <p> Sen kan man exempelvis lägga till klassen "stack-for-small" för att sidan ska se bra ut på små skärmar. Dessutom innehåller Foundation CSS-regler för vissa HTML-element som är både bra och dåligt. Det är smidigt att inte behöver lägga
+                    till klasser men irriterande att behöva styla om element som man inte vill ha någon style på. Foundation är dessutom ganska simpelt och färra funktioner än de stora ramverken, som exempelvis botstrap.
+                </p>
+            </div>
+            <div class="media-object-section">
+                <div class="thumbnail">
+                    <img src="img/foundation.png">
+                </div>
+            </div>
+
+        </div>
+        <h3>Hundar</h3>
+
+        <table>
+            <tr>
+                <th>Namn</th>
+                <th>Kastrerad</th>
+                <th>Kön</th>
+                <th>Ras</th>
+                <th>Egenskaper</th>
+            </tr>
+            <tr>
+                <td>Bob</td>
+                <td>Ja</td>
+                <td>Hane</td>
+                <td>Bernersennen</td>
+                <td>Snäll, lugn och stabil</td>
+            </tr>
+            <tr>
+                <td>Loki</td>
+                <td>Nej</td>
+                <td>Hane</td>
+                <td>Golden retriever</td>
+                <td>Snäll, lekfull, lydigt och lugn innomhus</td>
+            </tr>
+            <tr>
+                <td>Nimbus</td>
+                <td>Nej</td>
+                <td>Tik</td>
+                <td>Tysk spets</td>
+                <td>Snäll, lekfull och skäller inte</td>
+            </tr>
+            <tr>
+                <td>Bamse</td>
+                <td>Nej</td>
+                <td>Hane</td>
+                <td>Schäfer</td>
+                <td>Vältränad, lydig och skarp</td>
+            </tr>
+        </table>
+        <h3>Lägg till hundar</h3>
+
+        <form>
+            <label for="name">Namn:</label>
+            <input type="text" id="name">
+            <label for="castrated">Kastrerad</label>
+            <input type="checkbox" id="castrated"><br />
+            <label for="sex">Kön</label>
+            <select id="sex">
+                <option value="male">Hane</option>
+                <option value="female">Tik</option>
+              </select>
+            <label for="breed">Ras:</label>
+            <input type="text" id="breed">
+            <label for="properties">Egenskaper:</label>
+            <textarea id="properties"></textarea>
+            <input type="submit" value="Spara">
+        </form>
+    </div>
+
+</body>
+
+</html>

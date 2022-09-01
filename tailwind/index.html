@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <title>Fullstackutveckling med ramverk - Moment 1 - Tailwind CSS</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+            <h1 class="text-6xl m-2 logo">Moment 1</h1>
+            <nav>
+                <div class="inline-flex">
+                    <a href="../index.html" class="bg-blue-500 hover:bg-blue-800  font-bold py-2 px-4 rounded m-2">Hem</a>
+                    <a href="../foundation.html" class="bg-blue-500 hover:bg-blue-800  font-bold py-2 px-4 rounded m-2">Foundation</a>
+                    <a href="#" class="bg-blue-500 hover:bg-blue-800  font-bold py-2 px-4 rounded m-2">Tailwind CSS</a>
+                    <a href="../pub.html" class="bg-blue-500 hover:bg-blue-800  font-bold py-2 px-4 rounded m-2">Publicering</a>
+                </div>
+            </nav>
+        </header>
+
+        <h1 class="text-4xl font-bold m-2">Tailwind CSS</h1>
+        <h3 class="text-2xl mb-4 mt-3">Information</h3>
+        <p class="m-2">Tailwind CSS är ett stort ramverk som har mängder av funktioner och är väldigt kraftfullt. Precis som foundation så finns det många olika sätt att inkludera det i ett projekt men på grund av storleken så rekommenderas det inte att inkludera hela
+            CSS filerna eftersom de är enormt stora och påverkar laddningstiderna för webbplatsen negativt. För denna uppgift har jag inkluderat Tailwind med hjälp av CLI och på så sätt endast inkluderat de klasser som faktiskt används av webbplatsen.
+            Tailwind resettar stora delar av den normala CSS-stylingen som finns från början så att utvecklaren får möjlighet att styla varje element från början. Det finns som sagt enormt många klasser och tailwind ersätter i princip egenskriven CSS
+            helt. Detta gör att Tailwind passar bra till både stora och små projekt och när man väl lärt sig att använda det är det väldigt smidigt.</p>
+        <h3 class="text-2xl mb-4 mt-3">Fördelar och nackdelar</h3>
+        <p class="m-2">Som nämts ovan är Tailwind väldigt anpassningsbart och fungerar för i princip vilken webbplats som helst. Det är smidigt att lära sig och klassnamnen är lätta att förstå och lista ut. Det är snabbt att ladda om man kompilerar sin egen CSS fil
+            och det finns väldigt mycket funktionalitet. Tailwind tar dock ganska mycket tid att lära sig och eftersom många element "resettas" så måste man spendera tid på att styla i princip varje element vilket tar extra tid om man ska göra något enkelt.
+            Sen är det svårare att använda Tailwind för någon som inte har jobbat med terminaler och liknande eftersom det inte rekommenderas att inkludera hela CSS filen eller att använda sig av CDN-länkar. Överlag så känns Tailwind CSS som något jag
+            vill lära mig och det verkar väldigt kraftfullt och smidigt när man kan det! </p>
+
+        <h3 class="text-2xl mb-4 mt-3">Bilar</h3>
+        <table class="table-auto w-full text-sm text-left">
+            <thead class="text-xs text-black-700 uppercase bg-gray-50 border-t">
+                <tr class="border-b">
+                    <th>Namn</th>
+                    <th>Märke</th>
+                    <th>Bränsle</th>
+                    <th>Växellåda</th>
+                    <th>Tillbehör</th>
+                </tr>
+            </thead>
+            <tr class="border-b">
+                <td>Tr 200</td>
+                <td>Triumph</td>
+                <td>Bensin</td>
+                <td>Manuell</td>
+                <td>Radio, Centrallås</td>
+            </tr>
+            <tr class="border-b">
+                <td>Model 3</td>
+                <td>Tesla</td>
+                <td>El</td>
+                <td>Automat</td>
+                <td>Adaptiv farthållare, inbyggd dator</td>
+            </tr>
+            <tr class="border-b">
+                <td>740</td>
+                <td>Volvo</td>
+                <td>Diesel</td>
+                <td>Manuell</td>
+                <td>El rutor, AC</td>
+            </tr>
+            <tr class="border-b">
+                <td>DS3</td>
+                <td>Citroën</td>
+                <td>Bensin</td>
+                <td>Automat</td>
+                <td>Farthållare, AC</td>
+            </tr>
+        </table>
+
+
+        <div class="w-full mt-5">
+
+            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-2">
+                <h3 class="text-2xl mb-4">Lägg till bil</h3>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                  Namn
+                </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline" id="name" type="text">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="brand">
+                  Märke
+                </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3  mb-3 leading-tight focus:outline-none focus:shadow-outline" id="brand" type="text">
+
+                </div>
+                <div class="mb-6">
+                    <label for="fuel" class="block text-gray-700 text-sm font-bold mb-2">Bränsle</label>
+                    <select id="fuel" class="shadow appearance-none border rounded w-full py-2 px-3  mb-3 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="gas">Bensin</option>
+                <option value="diesel">Diesel</option>
+                <option value="electric">El</option>
+              </select>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="auto">Automatväxellåda:</label> Ja <input type="checkbox" id="auto">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="accesories">Tillbehör:</label>
+                    <textarea class="shadow appearance-none border rounded w-full py-2 px-3  mb-3 leading-tight focus:outline-none focus:shadow-outline" id="properties"></textarea>
+                </div>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline " type="button ">
+                  Spara
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</body>
+
+</html>
