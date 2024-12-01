@@ -127,3 +127,6 @@ a:hover {
     margin: 20px auto;
     max-width: 800px;
 }
+code {
+    font-size: 14px;
+}

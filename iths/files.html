@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webbtestning - Intressanta Filer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Säkerhetstermer</a></li>
+            <li><a href="resources.html">Resurser</a></li>
+            <li><a href="files.html">Intressanta filer</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Webbtestning - Intressanta Filer</h1>
+
+        <h2>1. Konfigurationsfiler</h2>
+        <p>Konfigurationsfiler kan innehålla känslig information som databasuppgifter eller serverinställningar:</p>
+        <ul>
+            <li><code>phpinfo.php</code> - Ger en detaljerad översikt över PHP-konfigurationen.</li>
+            <li><code>config.php</code>, <code>.env</code> - Vanliga filer med databasanvändarnamn eller API-nycklar.</li>
+            <li><code>web.config</code> - Konfigurationsfil för IIS-servrar.</li>
+            <li><code>application.yml</code> eller <code>.json</code> - Vanligt i Java- eller Spring Boot-applikationer.</li>
+        </ul>
+
+        <h2>2. Systemfiler</h2>
+        <p>Dessa filer kan avslöja serverinställningar eller felsökningsinformation:</p>
+        <ul>
+            <li><code>robots.txt</code> - Kan avslöja dolda sökvägar eller admin-sidor.</li>
+            <li><code>sitemap.xml</code> - Visar en lista över sidor på webbplatsen.</li>
+            <li><code>.htaccess</code> - Innehåller inställningar för Apache-servern.</li>
+            <li><code>.git/</code> - Om denna är åtkomlig kan den avslöja hela källkoden.</li>
+        </ul>
+
+        <h2>3. Backup- och testfiler</h2>
+        <p>Utvecklare lämnar ibland kvar filer som kan innehålla känslig eller föråldrad information:</p>
+        <ul>
+            <li><code>backup.zip</code>, <code>db-backup.sql</code>, <code>old/</code> - Backupfiler med känslig data.</li>
+            <li><code>test.php</code>, <code>test.html</code> - Testfiler som används under utveckling.</li>
+            <li><code>index.html.bak</code>, <code>index.php~</code> - Backup- eller temporära filer.</li>
+        </ul>
+
+        <h2>4. Loggfiler</h2>
+        <p>Loggfiler avslöjar ofta serveraktivitet eller användarinteraktioner:</p>
+        <ul>
+            <li><code>error.log</code>, <code>access.log</code> - Vanliga på Apache och Nginx.</li>
+            <li><code>debug.log</code> - Kan innehålla detaljer för felsökning.</li>
+        </ul>
+
+        <h2>5. Filuppladdningar</h2>
+        <p>Om applikationen tillåter filuppladdningar, kontrollera följande:</p>
+        <ul>
+            <li>Om uppladdade filer är åtkomliga via en URL (t.ex. <code>uploads/</code>).</li>
+            <li>Om uppladdade filer exekveras utan korrekt kontroll.</li>
+        </ul>
+
+        <h2>6. Andra intressanta filer</h2>
+        <ul>
+            <li><code>README</code>, <code>CHANGELOG</code>, <code>VERSION</code> - Metadata om applikationen.</li>
+            <li><code>install.php</code>, <code>setup.php</code> - Installationsskript som inte har tagits bort.</li>
+            <li><code>crossdomain.xml</code>, <code>clientaccesspolicy.xml</code> - Policys för Flash eller Silverlight.</li>
+        </ul>
+
+        <h2>Rekommenderade verktyg</h2>
+        <p>För att identifiera dessa filer, använd följande verktyg:</p>
+        <ul>
+            <li><strong>Burp Suite:</strong> Skanna och analysera HTTP-förfrågningar och svar.</li>
+            <li><strong>DirBuster eller gobuster:</strong> Bruteforce för att hitta dolda kataloger och filer.</li>
+            <li><strong>Wayback Machine:</strong> Kontrollera äldre versioner av webbplatsen för exponerade filer.</li>
+            <li><strong>git-dumper</strong> Analysera filer i .git katalogen</li>
+        </ul>
+
+        <p>Lycka till med testningen!</p>
+    </div>
+</body>
+</html>
