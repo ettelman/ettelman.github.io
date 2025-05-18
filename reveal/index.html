@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Reveal Dynamic Markdown</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css">
+    <link rel="stylesheet" href="catppuccin-mocha.css">
+    <style>
+      #menu {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1000;
+        background: #1e1e2e;
+        padding: 10px;
+        border-radius: 8px;
+      }
+      #menu button {
+        margin: 3px;
+        background: #313244;
+        color: #cdd6f4;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="menu">
+      <button onclick="loadSlides('slides.md')">Intro</button>
+      <button onclick="loadSlides('checklist.md')">OWASP</button>
+    </div>
+
+    <div class="reveal">
+      <div class="slides" id="slides">
+        <!-- Första laddning sker efter init -->
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/markdown/markdown.js"></script>
+
+    <script>
+      async function loadSlides(mdFile) {
+        const slidesContainer = document.getElementById("slides");
+        slidesContainer.innerHTML = "";
+
+        const section = document.createElement("section");
+        section.setAttribute("data-markdown", mdFile);
+        section.setAttribute("data-separator", "^---$");
+        section.setAttribute("data-separator-vertical", "^--$");
+        section.setAttribute("data-charset", "utf-8");
+
+        slidesContainer.appendChild(section);
+
+        await RevealMarkdown().convertSlides();  // Fungerar nu
+        Reveal.sync();
+      }
+
+      // Initiera Reveal först – ladda slides efteråt
+      Reveal.initialize({
+        hash: true,
+        plugins: [RevealMarkdown],
+        markdown: {
+          smartypants: true
+        },
+        ready: () => {
+          loadSlides("slides.md"); // Första load efter init
+        }
+      });
+    </script>
+  </body>
+</html>
