@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vad är en sårbarhet? – Pentest-intro</title>
+  <!-- Reveal.js CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@5/dist/reveal.css" />
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@5/dist/theme/black.css" id="theme" />
+  <style>
+    :root { --accent: #00d1d1; }
+    .reveal h1, .reveal h2, .reveal h3 { letter-spacing: .3px; }
+    .reveal .slides section { text-align: left; }
+    .reveal .slides section.center { text-align: center; }
+    .reveal code, .reveal pre { font-size: .9em; line-height: 1.3; }
+    .badge { display:inline-block; padding:.2em .5em; border:1px solid #666; border-radius:6px; margin-right:.35em; }
+    .accent { color: var(--accent); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; }
+    .small { font-size: .85em; }
+    .tiny { font-size: .75em; }
+    .muted { color:#bbb; }
+    .pill { background: rgba(0,209,209,.12); border:1px solid var(--accent); border-radius:999px; padding:.25em .7em; }
+    .table { width:100%; border-collapse: collapse; }
+    .table th, .table td { border:1px solid #444; padding:.5em .6em; }
+    .table th { background:#111; }
+    .callout { border-left: 3px solid var(--accent); padding-left: .8rem; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+    
+      <section class="center" data-transition="fade">
+        <h1>Vad är en <span class="accent">sårbarhet</span>?</h1>
+      </section>
+
+     
+      <section>
+        <h2>Agenda</h2>
+        <ol>
+          <li>Begrepp & definitioner</li>
+          <li>Kategorier av sårbarheter</li>
+          <li>Skillnader & exempel</li>
+          <li>Severity & risk</li>
+          <li>Beviskrav</li>
+          <li>Exempel & kedjor</li>
+     
+        </ol>
+      </section>
+
+    
+      <section>
+        <h2>Overview</h2>
+        <div class="two-col">
+          <div>
+            <ul>
+              <li><strong>Asset</strong>: något med värde.</li>
+              <li><strong>Threat</strong>: aktör/händelse som kan orsaka skada.</li>
+              <li><strong>Vulnerability</strong>: brist i kod/konfig/design/process.</li>
+              <li><strong>Exposure</strong>: större attackyta, ej nödvändigtvis brist.</li>
+            </ul>
+          </div>
+          <div>
+            <ul>
+              <li><strong>Weakness</strong>: t.ex. svagt lösenord.</li>
+              <li><strong>Exploit</strong>: konkret metod/kod för utnyttjande.</li>
+              <li><strong>Risk</strong>: sannolikhet * konsekvens.</li>
+            </ul>
+    
+          </div>
+        </div>
+      </section>
+
+      
+      <section>
+        <h2>Kategorier av sårbarheter</h2>
+        <p><span class="badge">A</span> Mjukvarubuggar &nbsp; <span class="badge">B</span> Misconfig &nbsp; <br><span class="badge">C</span> Identitet/Auth &nbsp; <span class="badge">D</span> Informationsläckage<br><span class="badge">E</span> Nät/Arkitektur &nbsp; <span class="badge">F</span> Process/Drift</p>
+      </section>
+
+    
+      <section>
+        <h2>A) Mjukvarusårbarheter</h2>
+        <ul>
+          <li>RCE: buffer overflow, deserialisering.</li>
+          <li>Webb: SQLi, XSS, Command Injection, IDOR.</li>
+          <li>Auth-buggar: bypass, session fixation.</li>
+          <li>Sårbara komponenter/beroenden (CVE/CWE).</li>
+          <li>Affärslogik: fel i regler (”negativ återbetalning”).</li>
+        </ul>
+        <p class="small muted">Upptäcks via -sV, PoC, kodgranskning, OWASP WSTG.</p>
+      </section>
+
+      
+      <section>
+        <h2>B) Konfigurationssårbarheter</h2>
+        <ul>
+          <li>SMB-shares med anonym read/write.</li>
+          <li>Directory listing, svaga headers/TLS.</li>
+          <li>CORS: <code>*</code> + credentials.</li>
+          <li>AD: fel delegation, roast-möjligheter.</li>
+          <li>Cloud: publika buckets, öppna management-portar.</li>
+        </ul>
+      </section>
+
+      
+      <section>
+        <h2>C) Identitet & autentisering</h2>
+        <ul>
+          <li>Svaga/återanvända lösenord, default creds.</li>
+          <li>Bristande MFA, läckta tokens/nycklar.</li>
+          <li>Dålig lösenordspolicy/blocklist.</li>
+        </ul>
+      </section>
+
+     
+      <section>
+        <h2>D) Informationsläckage & anonym enum</h2>
+        <ul>
+          <li>SMB/RPC null sessions, LDAP anonymous bind.</li>
+          <li>SMTP VRFY/EXPN, SNMP v2c <code>public</code>.</li>
+          <li>robots.txt, directory listing, git/.svn.</li>
+        </ul>
+        <p class="small">Rapportera när det stärker angriparens förmåga (kedjor).</p>
+      </section>
+
+     
+      <section>
+        <h2>E) Nätverk & arkitektur</h2>
+        <ul>
+          <li>Platt nät utan segmentering.</li>
+          <li>RDP/SSH publikt, ingen egress-kontroll.</li>
+          <li>DNS/LLMNR/NBNS-sårbarheter.</li>
+        </ul>
+      </section>
+
+     
+      <section>
+        <h2>F) Processer & drift</h2>
+        <ul>
+          <li>Ingen central loggning/alerting (SIEM).</li>
+          <li>Svag patch- & sårbarhetshantering.</li>
+          <li>Zombie-konton, brist på joiner/mover/leaver.</li>
+          <li>Backup- & restore-övningar saknas.</li>
+        </ul>
+      </section>
+
+    
+      <section>
+        <h2>Skillnader & exempel</h2>
+        <table class="table tiny">
+          <thead>
+            <tr><th>Typ</th><th>Exempel</th><th>Sårbarhet?</th><th>Kommentar</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Mjukvara</td><td>vsftpd 2.3.4 backdoor</td><td><strong>Ja</strong> (High)</td><td>Auth-befriat RCE</td></tr>
+            <tr><td>Konfig</td><td>Anon RW-share</td><td><strong>Ja</strong> (Med–High)</td><td>Läckage + persistence-risk</td></tr>
+            <tr><td>Lösenord</td><td>admin:admin</td><td><strong>Ja</strong> (High)</td><td>Full compromise</td></tr>
+            <tr><td>Anon enum</td><td>Lista användare</td><td><strong>Ja</strong> (Low–Med)</td><td>Kedjar till spraying</td></tr>
+            <tr><td>Exponering</td><td>RDP mot internet</td><td>Ofta <strong>Ja</strong> (Med)</td><td>Historiska RCE-kedjor</td></tr>
+            <tr><td>Info</td><td>Öppen port</td><td><strong>Nej</strong> (Info)</td><td>Inte sårbar i sig</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+   
+      <section>
+        <h2>Severity & risk</h2>
+        <div class="two-col small">
+          <div>
+            <h3>Severity rating</h3>
+            <ul>
+              <li>High · Medium · Low</li>
+            </ul>
+               <p class="callout tiny">Ta hänsyn till Business risk</p>
+          </div>
+          <div>
+            <h3>Business risk</h3>
+            <ul>
+              <li>Impact: data, systemkritikalitet, GDPR</li>
+              <li>Sannolikhet: exploit-mognad, exponering, kontroller</li>
+            </ul>
+         
+          </div>
+        </div>
+      </section>
+
+    
+      <section>
+        <h2>Beviskrav</h2>
+        <ul>
+          <li>Reproducerbara steg</li>
+          <li>Tydlig påverkan (vad kan göras?)</li>
+          <li>Korrekt kontext & artefakter</li>
+          <li>Avgränsning (ROE), verifiering</li>
+        </ul>
+      </section>
+
+
+
+   
+      <section>
+        <h2>Exempel på fynd</h2>
+        <div class="three-col tiny">
+          <div>
+            <h3>Anon SMB-share</h3>
+            <ul>
+              <li>users.xlsx med roller</li>
+              <li>Impact: spraying, SOCENG</li>
+              <li>Sev: Medium→High (om secrets)</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Svaga SSH-lösenord</h3>
+            <ul>
+              <li>root:toor</li>
+              <li>Impact: systemkompromiss</li>
+              <li>Sev: High</li>
+            </ul>
+          </div>
+          <div>
+            <h3>LDAP anon enum</h3>
+            <ul>
+              <li>Lista användare</li>
+              <li>Impact: målstyrd spraying</li>
+              <li>Sev: Low–Medium</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      
+      <section>
+        <h2>Anonym enum – gradering</h2>
+        <ul class="small">
+          <li><strong>Low</strong>: endast namnlistning</li>
+          <li><strong>Medium</strong>: fler attribut (mail, avdelning)</li>
+          <li><strong>High</strong>: direkt attackmöjlighet (t.ex. AS-REP roast)</li>
+        </ul>
+        <p class="tiny callout">Bästa praxis: koppla enum → nästa steg du visat i testet.</p>
+      </section>
+
+      
+      <section>
+        <h2>Överrapportera inte…</h2>
+        <ul>
+          <li>Enbart öppna portar (utan riskkontext)</li>
+          <li>”Server: Apache” utan sårbar version</li>
+          <li>Obetydliga TLS-anmärkningar i intern trafik</li>
+        </ul>
+      </section>
+
+    
+      <section>
+        <h2>Severity – snabbguide</h2>
+        <ul class="small">
+          <li><strong>High:</strong> Auth-bypass, SQLi exfil, giltiga creds till känsligt system</li>
+          <li><strong>Medium:</strong> Anon read med intern info, IDOR utan PII</li>
+          <li><strong>Low/Info:</strong> Verbose banners, saknade headers</li>
+        </ul>
+      </section>
+
+      
+      <section>
+        <h2>Rekommendationer som fungerar</h2>
+        <ul>
+          <li>Specifika steg (GPO, konfig, policy)</li>
+          <li>Verifierbarhet (hur kunden testar fix)</li>
+          <li>Tidslinje & ägarskap</li>
+          <li>Referenser (CWE/OWASP/CIS)</li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@5/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      controls: true,
+      progress: true,
+      transition: 'fade',
+      center: false,
+      width: 1280,
+      height: 720,
+      margin: 0.05,
+      pdfSeparateFragments: false
+    });
+  </script>
+</body>
+</html>
