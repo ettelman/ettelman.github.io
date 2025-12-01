@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindful Homes</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    
+<noscript>
+ <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=1495758677984417&ev=PageView
+&noscript=1"/>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KRBGW3HX');</script>
+<!-- End Google Tag Manager -->
+</noscript>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRBGW3HX"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <header>
+        <div>
+            <img src="logo2.png" alt="Company logo" class="logo">
+            <span class="logo-name">Mindful Homes</span>
+        </div>
+        <nav class="navigation">
+            <div class="desktop-links">
+                <a href="#" onclick="toggleQuestions()">FAQ</a>
+                <a href="#therapy">Therapy</a>
+                <a href="#services">Services</a>
+                <a href="#about">About me</a>
+                <button class="book-meeting" onclick="window.open('https://outlook.office365.com/book/MindfulHomes1@mindful-homes.se/', '_blank');">Book a session</button>
+            </div>
+            <button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
+                <img src="hamburger.png" alt="">
+            </button>
+        </nav>
+    </header>
+
+    <div class="nav-panel" id="navMenu" aria-hidden="true">
+        <div class="nav-content">
+            <button class="nav-close" id="navClose" type="button" aria-label="Close menu">&times;</button>
+            <div class="nav-links">
+                <a href="#" onclick="toggleQuestions()">FAQ</a>
+                <a href="#therapy" onclick="toggleMenu()">Therapy</a>
+                <a href="#services" onclick="toggleMenu()">Services</a>
+                <a href="#about" onclick="toggleMenu()">About me</a>
+            </div>
+            <button class="book-meeting" onclick="window.open('https://outlook.office365.com/book/MindfulHomes1@mindful-homes.se/', '_blank');">Book a session</button>
+        </div>
+    </div>
+
+ <div class="icons social-strip">
+    
+        <div class="tooltip">
+            <a href="https://se.linkedin.com/in/ayseg%C3%BCl-aksoy-aa2416a8?trk=profile-badge" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <span class="tooltiptext">LinkedIn</span></div>
+            <div class="tooltip">
+ <a href="https://www.youtube.com/@MindfulHomes" target="_blank"><i class="fab fa-youtube"></i></a>
+ <span class="tooltiptext">YouTube</span></div>
+    <div class="tooltip">
+    <a href="https://www.instagram.com/mindfulhomesab/" target="_blank"><i class="fab fa-instagram"></i></a>
+    <span class="tooltiptext">Instagram</span></div>
+
+    <div class="tooltip"><a href="https://www.tiktok.com/@mindfulhomes?amp%3Bsender_device=pc&is_from_webapp=1" target="_blank"> <i class="fab fa-tiktok"></i></a>
+        <span class="tooltiptext">TikTok</span></div>
+    |
+    <div class="tooltip">
+        <a href="index.html"> <i class="fas fa-globe"></i></a>
+        <span class="tooltiptext tooltiptext-2">In Swedish</span>
+    </div>
+</div>
+   
+<section class="hero full-bleed">
+    <div class="hero-media">
+        <img src="looker_big.jpg" alt="Therapeutic conversation in a calm setting">
+    </div>
+    <div class="hero-content">
+        <p class="eyebrow">Private therapy</p>
+        <h1 class="looker">Private therapy on your terms — wherever you are</h1>
+        <p>There is no manual for life. But there are conversations that can help us find answers and solutions. Here you get a safe space to say what you feel and find new ways forward.</p>
+        <p>The first session is free. I am available based on your needs with times during the day, evening, and weekend.</p>
+        <p class="hero-note">Sessions online, in Stockholm, or at your home.</p>
+        <div class="hero-tiles">
+            <div class="tile">
+                <span>Consultation call</span>
+                <p>30 min</p>
+            </div>
+            <div class="tile">
+                <span>First meeting</span>
+                <p>90 min • Free</p>
+            </div>
+            <div class="tile">
+                <span>Therapy packages</span>
+                <p>Flexible durations</p>
+            </div>
+        </div>
+        <div class="hero-cta">
+            <button class="book-meeting primary-cta" onclick="window.open('https://outlook.office365.com/book/MindfulHomes1@mindful-homes.se/', '_blank');">Book a consultation call</button>
+            <button class="book-meeting ghost-cta" onclick="document.getElementById('services').scrollIntoView({ behavior: 'smooth' });">Read about packages</button>
+        </div>
+    </div>
+</section>
+
+<section class="story-block image-left full-bleed" id="therapy" data-mobile-bg="looker_4.jpg">
+    <figure class="story-image image-filter">
+        <img src="jump.jpg" alt="Warm neutral tones in a therapy room">
+    </figure>
+    <div class="story-text">
+        <p class="eyebrow">What I can help you with</p>
+        <h2>I help you and your loved ones to:</h2>
+        <ul class="story-points">
+            <li>• Say what you need without pressure or nagging</li>
+            <li>• Argue fairly and effectively and find your way back to connection</li>
+            <li>• Resolve everyday conflicts in parenting</li>
+            <li>• Feel heard and respected by your child</li>
+            <li>• Handle jealousy, infidelity, and betrayal</li>
+            <li>• Explore desire, sexuality, and intimacy</li>
+            <li>• Build a sex life that truly feels good</li>
+            <li>• Calm strong emotions and feel safe together</li>
+        </ul>
+    </div>
+</section>
+
+<section class="process-section full-bleed" id="process">
+    <div class="process-content">
+        <p class="eyebrow">How it works</p>
+        <h2>Three steps to conversations that make a difference</h2>
+        <div class="process-steps">
+            <article class="process-card">
+                <span>1</span>
+                <h3>Consultation call · 30 min</h3>
+                <p>We talk about what is difficult and what you want help with. Free and online.</p>
+            </article>
+            <article class="process-card">
+                <span>2</span>
+                <h3>First meeting · 90 min</h3>
+                <p>We have a first session — completely free of charge.</p>
+            </article>
+            <article class="process-card">
+                <span>3</span>
+                <h3>Choose a package</h3>
+                <p>If the first session feels right, you choose one of three packages that fits.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="story-block full-bleed treatment-section" id="services" data-mobile-bg="looker.jpg">
+    <figure class="story-image image-filter">
+        <img src="leaf.jpg" alt="Details from a mindful home">
+    </figure>
+    <div class="story-text">
+        <p class="eyebrow">Therapy packages</p>
+        <h2 class="small-margin">Always included:
+        </h2>
+        <ul class="package-list">
+            <li>90-minute sessions</li>
+            <li>Sessions in Stockholm, online, or home visits</li>
+            <li>Daytime, evenings, and weekends</li>
+            <li>Free cancellations and rescheduling (even on short notice)</li>
+            <li>No expiration dates</li>
+            <li>Emergency sessions can be booked</li>
+            <li>Support between sessions when needed (call/text)</li>
+            <li>Swedish, English, and Turkish</li>
+        </ul>
+        <div class="treatment-buttons">
+            <button class="treatments-btn highlight-button" id="but1" onclick="dynamicContent(1)">Family therapy</button>
+            <button class="treatments-btn" id="but2" onclick="dynamicContent(2)">Couples therapy</button>
+            <button class="treatments-btn" id="but3" onclick="dynamicContent(3)">Individual therapy</button>
+        </div>
+        <div id="dynamic" class="treatment-panel">
+            <h3>Family therapy</h3>
+            <p>Most things work in your family — and still it sometimes gets stuck. With me you get a safe place to talk calmly and understand one another.</p>
+            <p>I see the family as part of the solution and the interaction as the key factor for change.</p>
+            <p>Examples: reach a teenager who withdraws, find a new way for an adult child and parent to meet, or ease tensions between siblings.</p>
+        </div>
+    </div>
+</section>
+
+<section class="testimonials full-bleed">
+    <div class="testimonials-inner">
+        <div class="testimonials-header">
+            <p class="eyebrow">Client testimonials</p>
+        </div>
+        <div id="quotes-container" class="quote-layout">
+            <div id="quote-display">
+                <article class="quote-box active">
+                    <div class="quote-meta">
+                       
+                        <span class="quote-label">Woman</span>
+                    </div>
+                    <div class="quote-body">
+                        <p class="quote-text">Aysegül has made a big difference for me. Some weeks I have just longed to see her, because I know my heart feels lighter when I leave. My sessions with her have been invaluable. Thank you!</p>
+                    </div>
+                </article>
+      
+                <article class="quote-box">
+                    <div class="quote-meta">
+                        
+                        <span class="quote-label">Woman</span>
+                    </div>
+                    <div class="quote-body">
+                        <p class="quote-text">Thank you Aysegül! I have learned so much about myself. I am grateful I got help so quickly with things I first thought I would carry my whole life.</p>
+                    </div>
+                </article>
+      
+                <article class="quote-box">
+                    <div class="quote-meta">
+                        
+                        <span class="quote-label">Man</span>
+                    </div>
+                    <div class="quote-body">
+                        <p class="quote-text">Aysegül is an amazing therapist who listens, supports, and comforts. 10 out of 10.</p>
+                    </div>
+                </article>
+      
+                <article class="quote-box">
+                    <div class="quote-meta">
+                        
+                        <span class="quote-label">Man</span>
+                    </div>
+                    <div class="quote-body">
+                        <p class="quote-text">She asked questions that helped me finally put words to my thoughts and feelings. She listened and validated me the whole time. I felt that Aysegül saw and heard me.</p>
+                    </div>
+                </article>
+      
+                <article class="quote-box">
+                    <div class="quote-meta">
+                      
+                        <span class="quote-label">Woman</span>
+                    </div>
+                    <div class="quote-body">
+                        <p class="quote-text">I felt the sessions helped me grow and challenged me, and I never felt judged. Meeting Aysegül has been truly helpful.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="quote-dots" id="quoteDots">
+            <button class="dot active" aria-label="Show first testimonial"></button>
+            <button class="dot" aria-label="Show second testimonial"></button>
+            <button class="dot" aria-label="Show third testimonial"></button>
+            <button class="dot" aria-label="Show fourth testimonial"></button>
+            <button class="dot" aria-label="Show fifth testimonial"></button>
+        </div>
+    </div>
+</section>
+
+<section class="about-band full-bleed" id="about">
+    <figure class="about-image">
+        <img src="aisy.jpg" alt="Aysegül Aksoy">
+    </figure>
+    <div class="about-text">
+        <p class="eyebrow">About me</p>
+        <h2>Hi, I'm Aysegül</h2>
+        <p>I am a licensed social worker, family therapist, and certified sex educator. For over ten years I have worked with couples, families, and young people in social services, schools, youth clinics, and non-profit psychotherapy clinics.</p>
+        <p>With me you are met without judgment — with respect, presence, and curiosity. We work together as a team where you bring the experiences and I contribute perspective, tools, and direction.</p>
+        <ul class="about-list">
+            <li>Board member, Swedish Association of Youth Clinics</li>
+            <li>Member, Swedish Association for Family Therapy</li>
+            <li>Member, Swedish Association for Sexology</li>
+        </ul>
+
+<section class="badge-row">
+   <img src="fsumlogga.png" alt="FSUM logo">
+    <img src="ffst.png" alt="FFST logo">
+    <img src="sfslogga.png" alt="SFS logo">
+   
+</section>
+        <button class="book-meeting ghost-cta" onclick="window.open('https://outlook.office365.com/book/MindfulHomes1@mindful-homes.se/', '_blank');">Book a free call</button>
+    </div>
+</section>   
+
+
+    <div class="looker-footer legal-block no-margin-mobile-2">
+                <h2 class="bottom-h2">Terms</h2>
+<p>Payment is made by invoice. 
+I am a member of Akademikerförbundet SSR and carry patient insurance.
+<br />Email: info@mindful-homes.se </p>
+<button id="myBtn" class="gdpr-button">Read about how we process personal data</button>
+<div id="privacyModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>GDPR and your personal data:</h3>
+      <p>When you book services with us, we process your personal data in accordance with the General Data Protection Regulation (GDPR). We only collect the information necessary to complete the booking and provide our services to you. 
+    </p><p>Your information is never shared without your consent, except when required to fulfill our service to you or to comply with legal requirements. You have the right to request access to, rectification, or deletion of your personal data. For more information, see our Privacy Policy or contact us.</p>
+    </div>
+  </div>
+            </div>
+            <button id="scrollTopBtn" title="Go to top">↑ Back to top</button>
+
+            <div id="cookieConsentContainer" class="cookie-consent-container">
+                <div class="content-container">
+                  <p>This website uses cookies to improve the user experience and analyze traffic. By clicking "Accept", you agree to the use of cookies for these purposes.</p>
+                  <button onclick="acceptCookies()">Accept</button>
+                  <button onclick="rejectCookies()">Only necessary</button>
+                </div>
+              </div>
+
+              <div id="customFaqModal" class="custom-modal">
+                <div class="custom-modal-content">
+                  <span class="custom-close">&times;</span>
+                  <h2><i class="fas fa-question-circle"></i> Frequently asked questions</h2>
+                  <hr>
+                  <div class="custom-faq">
+                    <h3>How do sessions with you work?</h3>
+                    <p>We always start with a free 30-minute consultation call online to understand your situation and needs. Then we book a 90-minute first session — at my office, online, or as a home visit. The first session is free. If you want to continue, you choose one of three packages.</p>
+                    <h3>How quickly can I get an appointment?</h3>
+                    <p>Often the same week.</p>
+                    <h3>Can you come to us?</h3>
+                    <p>Yes. Home or office visits can be booked.</p>
+                    <h3>Who can come to therapy?</h3>
+                    <p>I work with individuals, couples, and families. You are welcome exactly as you are — by yourself, with your partner, or together with a family member, a sibling, or your children.</p>
+                    <h3>I'm in another time zone — can we still have sessions?</h3>
+                    <p>Yes, absolutely. I offer sessions online no matter where in the world you are.</p>
+                    <h3>Where can I read more about your qualifications?</h3>
+                    <p><a href="https://se.linkedin.com/in/ayseg%C3%BCl-aksoy-aa2416a8?trk=profile-badge" target="_blank" rel="noopener">You can find my professional background on LinkedIn.</a></p>
+                    <h3>I want to get in touch — how do I do that?</h3>
+                    <p>Email me at <a href="mailto:info@mindful-homes.se">info@mindful-homes.se</a> or call and I will get back to you.</p>
+                    
+                  </div>
+                </div>
+              </div>
+              
+    <script src="script.js"></script>
+</body>
+</html>

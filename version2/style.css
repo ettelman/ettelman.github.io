@@ -350,6 +350,8 @@ header {
 }
 
 .tile span {
+    display: block;
+    overflow-wrap: anywhere;
     text-transform: uppercase;
     font-size: 0.75rem;
     letter-spacing: 0.15em;
@@ -695,20 +697,7 @@ header {
     box-shadow: 0 10px 20px rgba(79, 124, 120, 0.25);
 }
 
-#quote-display::before {
-    content: "“";
-    position: absolute;
-    top: -90px;
-    left: -70px;
-    font-size: 18rem;
-    color: var(--sea);
-    opacity: 0.18;
-    font-family: "Truculenta", sans-serif;
-    z-index: 0;
-    pointer-events: none;
-    transform: rotate(-6deg);
-    mix-blend-mode: multiply;
-}
+
 
 .about-band {
     margin-top: 0;
